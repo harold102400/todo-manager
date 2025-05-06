@@ -8,7 +8,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {Card, CardContent, Container, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Container,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import { useUserStore } from "@/store/user";
 import InfoIcon from "@mui/icons-material/Info";
 import { useRouter } from "next/navigation";
@@ -17,10 +26,10 @@ import DeleteModal from "../modalcomponents/DeleteModal";
 import CreateModal from "../modalcomponents/CreateModal";
 import EditModal from "../modalcomponents/EditModal";
 const Home = () => {
-  
   // estado global y funciones obtenidas desde el store de Zustand
-  const { users, getAllUsers } = useUserStore((state) => state);
-  
+  const { users, getAllUsers, goNextPage, goPreviousPage, page, totalPages } =
+    useUserStore((state) => state);
+
   const router = useRouter();
   const handleNavigate = (id: string) => {
     router.push(`/user/${id}`);
@@ -107,6 +116,17 @@ const Home = () => {
           </Table>
         </TableContainer>
       )}
+      {totalPages !== null ? (
+        <div className="pagination-container">
+          <IconButton onClick={goPreviousPage} disabled={page === 1}>
+            <ArrowBackIosNew />
+          </IconButton>
+          {page} / {totalPages}
+          <IconButton onClick={goNextPage} disabled={page >= totalPages}>
+            <ArrowForwardIos />
+          </IconButton>
+        </div>
+      ) : null}
     </Container>
   );
 };
