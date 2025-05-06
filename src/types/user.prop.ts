@@ -3,5 +3,5 @@ export type UserProp = {
     name: string;
     email: string;
     gender: string;
-    status: boolean;
+    status: string;
 }
